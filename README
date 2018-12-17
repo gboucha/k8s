@@ -28,3 +28,36 @@ kubectl get componentstatuses
 kubectl get ds --all-namespaces
 
 
+#Upgrade K8S
+# 1- Upgrade control plane
+#   From the master
+sudo apt get upgrade kubeadm
+kubeadm version
+sudo kubedm upgrade plan --> Il va vous dire quelle command effectuer
+kubeadm upgrade apply v1.13.1
+kubectl drain <servername> --ignore-daemonsets
+udo apt update
+sudo apt upgrade kubelet
+systemctl status kubelet
+kubectl uncordon $HOSTNAME
+#  For the other nodes
+#     From the master
+kubectl drain <servername> --ignore-daemonsets --> Les pods devraient qutter le noeud
+kubectl get pods -o wide
+ssh <node>
+sudo apt update
+sudo apt upgrade kubelet
+systemctl status kubelet
+exit
+#     From the master
+kubectl uncordon <node>
+kubectl get nodes -o wide --> Le cluster doit-[etre mis 'a jour
+
+
+
+
+
+
+
+
+
