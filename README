@@ -1,0 +1,30 @@
+# Define contexts
+
+kubectl config get-context
+kubectl config current-context
+kubectl config get-clusters
+kubectl config use-context gke_gbk8sprj_us-west1-a_kuar-cluster1
+kubectl config use-context minikube
+
+# minikube context
+minikube version
+minikube start
+minikube stop
+
+
+
+# Create node pool in gcloud
+gcloud container node-pools create kuar-np --cluster kuar-cluster
+# delete node pool in gcloud
+gcloud container node-pools delete  kuar-np --cluster kuar-cluste
+
+
+# Query k8s environments
+kubectl get nodes
+kubectl get services
+kubectl get namespaces
+kubectl describe nodes
+kubectl get componentstatuses
+kubectl get ds --all-namespaces
+
+
