@@ -1,5 +1,7 @@
 # Define contexts
 
+kubectl config view
+kubectl config set-cluster lokd501l-le500-loto-quebec-com:8443
 kubectl config get-context
 kubectl config current-context
 kubectl config get-clusters
