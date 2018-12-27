@@ -28,6 +28,7 @@ kubectl get namespaces
 kubectl describe nodes
 kubectl get componentstatuses
 kubectl get ds --all-namespaces
+kubectl logs <pod> [-f] [--previous]
 
 
 #Upgrade K8S
