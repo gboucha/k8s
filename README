@@ -26,6 +26,13 @@ kubectl get namespaces
 kubectl describe nodes
 kubectl get componentstatuses
 kubectl get ds --all-namespaces
+# troubleshoot kube-dns
+kubectl get pods -n kube-system -l k8s-app=kube-dns -o name
+kubectl get pods --namespace=kube-system -l k8s-app=coredns
+for p in $(kubectl get pods --namespace=kube-system -l k8s-app=kube-dns -o name); do kubectl logs --namespace=kube-system $p; done
+kubectl logs --namespace=kube-system $(kubectl get pods --namespace=kube-system -l k8s-app=kube-dns -o name | head -1) -c kubedns
+kubectl logs --namespace=kube-system $(kubectl get pods --namespace=kube-system -l k8s-app=kube-dns -o name | head -1) -c dnsmasq
+kubectl logs --namespace=kube-system $(kubectl get pods --namespace=kube-system -l k8s-app=kube-dns -o name | head -1) -c sidecar
 
 
 #Upgrade K8S
