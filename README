@@ -1,9 +1,11 @@
-# Define contexts
+# Define conexts
 
-kubectl config get-context
+kubectl config view
+kubectl config set-cluster lokd501l-le500-loto-quebec-com:8443
+kubectl config get-contexts
 kubectl config current-context
 kubectl config get-clusters
-kubectl config use-context gke_gbk8sprj_us-west1-a_kuar-cluster1
+kubectl config use-context gke_gbk8sprj_us-west1-a_kuar-cluster
 kubectl config use-context minikube
 
 # minikube context
@@ -16,7 +18,12 @@ minikube stop
 # Create node pool in gcloud
 gcloud container node-pools create kuar-np --cluster kuar-cluster
 # delete node pool in gcloud
-gcloud container node-pools delete  kuar-np --cluster kuar-cluste
+gcloud container node-pools delete  kuar-np --cluster kuar-cluster
+# Générer une entrée dans le fichier kubeconfig
+gcloud container clusters get-credentials kuar-cluster
+
+gcloud container clusters list
+gcloud container clusters describe kuar-cluster
 
 
 # Query k8s environments
@@ -26,7 +33,17 @@ kubectl get namespaces
 kubectl describe nodes
 kubectl get componentstatuses
 kubectl get ds --all-namespaces
+<<<<<<< HEAD
+# troubleshoot kube-dns
+kubectl get pods -n kube-system -l k8s-app=kube-dns -o name
+kubectl get pods --namespace=kube-system -l k8s-app=coredns
+for p in $(kubectl get pods --namespace=kube-system -l k8s-app=kube-dns -o name); do kubectl logs --namespace=kube-system $p; done
+kubectl logs --namespace=kube-system $(kubectl get pods --namespace=kube-system -l k8s-app=kube-dns -o name | head -1) -c kubedns
+kubectl logs --namespace=kube-system $(kubectl get pods --namespace=kube-system -l k8s-app=kube-dns -o name | head -1) -c dnsmasq
+kubectl logs --namespace=kube-system $(kubectl get pods --namespace=kube-system -l k8s-app=kube-dns -o name | head -1) -c sidecar
+=======
 kubectl logs <pod> [-f] [--previous]
+>>>>>>> 0144af0f9f2ccc0f70e7348b59b926796eb5eb87
 
 
 #Upgrade K8S
@@ -55,7 +72,21 @@ kubectl uncordon <node>
 kubectl get nodes -o wide --> Le cluster doit-[etre mis 'a jour
 
 
+# ________________________________________________________________
+# gcloud compute
+# ________________________________________________________________
+gcloud compute images list
+gcloud compute machine-types list
 
+# Example de compute creation
+gcloud compute instances create firstcentos \
+> --machine-type n1-standard-1 --image-family centos-7 --image-project centos-cloud \
+> --metadata usage=kubectl
+# SSH dans le serveur 
+gcloud compute --project "gbk8sprj" ssh --zone "us-west1-a" "firstcentos"
+
+# Stop compute instance
+gcloud compute instances stop firstcentos
 
 
 
