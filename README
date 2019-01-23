@@ -86,6 +86,8 @@ gcloud compute --project "gbk8sprj" ssh --zone "us-west1-a" "firstcentos"
 # Stop compute instance
 gcloud compute instances stop firstcentos
 
+# Kubectl auto-completion
+source <(kubectl completion bash)
 
 
 
